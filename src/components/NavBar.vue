@@ -1,7 +1,10 @@
 <template>
   <nav class="bg-white shadow dark:bg-gray-800">
     <div class="container px-6 py-4 mx-auto">
-      <div v-if="false" class="md:flex md:items-center md:justify-between">
+      <div
+        v-if="GlobalState.currentUser != null"
+        class="md:flex md:items-center md:justify-between"
+      >
         <div class="flex items-center justify-between">
           <div class="text-xl font-semibold text-gray-700">
             <router-link
@@ -70,3 +73,15 @@
     </div>
   </nav>
 </template>
+<script>
+import LoginAPI from "../services/LoginAPI";
+export default {
+  inject: ["GlobalState"],
+  methods: {
+    logout() {
+      LoginAPI.logout();
+      this.$router.push({ name: "Home" });
+    },
+  },
+};
+</script>
