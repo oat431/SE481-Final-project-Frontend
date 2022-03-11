@@ -23,6 +23,13 @@
               >Home</router-link
             >
           </div>
+          <div class="flex flex-row -mx-4 md:flex-row md:items-center md:mx-8">
+            <router-link
+              to="/search"
+              class="px-2 py-1 mx-2 mt-2 text-sm font-medium text-gray-700 transition-colors duration-200 transform rounded-md md:mt-0 hover:bg-gray-300"
+              >Search</router-link
+            >
+          </div>
           <div class="flex items-right mt-4 md:mt-0 relative">
             <button
               @click="logout"
