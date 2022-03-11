@@ -1,8 +1,7 @@
 <template>
-  heelo there
   <DefaultLayout>
     <Form @submit="search" :validation-schema="schema">
-      <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+      <div class="grid grid-cols-3 gap-2 mt-2 sm:grid-cols-3">
         <div>
           <label class="text-gray-700 dark:text-gray-200" for="query"
             >fill your qeury:</label
@@ -12,9 +11,14 @@
             type="text"
             class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
           />
-          <ErrorMessage name="username" class="text-red-500" />
+          <ErrorMessage name="query" class="text-red-500" />
+          <p
+            class="text-red-500"
+            v-if="this.GlobalState.foodList.did_you_mean !== undefined"
+          >
+            Did you mean :{{ this.GlobalState.foodList.did_you_mean[0] }}
+          </p>
         </div>
-        <div></div>
         <div>
           <label class="text-gray-700 dark:text-gray-200" for="opt"
             >search type</label
@@ -26,18 +30,18 @@
             class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
           >
             <option value="title">Title</option>
-            <option value="ingredient">ingredient</option>
-            <option value="instruction">instruction</option>
+            <option value="ingredient">Ingredient</option>
+            <option value="instruction">Instruction</option>
           </Field>
           <ErrorMessage name="opt" class="text-red-500" />
         </div>
-      </div>
-      <div class="flex justify-center mt-6">
-        <button
-          class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600"
-        >
-          SEARCH
-        </button>
+        <div class="flex justify-center mt-6">
+          <button
+            class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-green-500 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600"
+          >
+            SEARCH
+          </button>
+        </div>
       </div>
     </Form>
   </DefaultLayout>
@@ -72,8 +76,7 @@ export default {
     search(query) {
       FoodAPI.search(query)
         .then((res) => {
-          //   this.$router.push({ name: "Home" });
-          console.log(res);
+          this.GlobalState.foodList = res;
         })
         .catch(() => {
           console.log("could not search");
