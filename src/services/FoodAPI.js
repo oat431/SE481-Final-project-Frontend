@@ -19,4 +19,9 @@ export default {
         return Promise.reject(error);
       });
   },
+  getById(id) {
+    return apiIRCore.get("/recipe/" + id).then((res) => {
+      return Promise.resolve(res.data);
+    });
+  },
 };

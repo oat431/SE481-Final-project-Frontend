@@ -3,6 +3,9 @@ import Home from "../views/Home.vue";
 import Login from "../components/Login.vue";
 import Register from "../components/Register.vue";
 import Search from "../views/SearchBar.vue";
+import RecipeDetails from "../views/RecipeDetails.vue";
+import FoodAPI from "../services/FoodAPI.js";
+import GlobalState from "../store/index.js";
 const routes = [
   {
     path: "/",
@@ -32,6 +35,23 @@ const routes = [
     path: "/search",
     name: "ssearch",
     component: Search,
+  },
+  {
+    path: "/details/:id",
+    name: "recipeDetails",
+    component: RecipeDetails,
+    props: true,
+    beforeEnter: (to) => {
+      return FoodAPI.getById(to.params.id) // Return and params.id
+        .then((response) => {
+          // Still need to set the data here
+          console.log(response);
+          GlobalState.details = response; // <--- Store the event
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 ];
 

@@ -16,7 +16,7 @@
             class="text-red-500"
             v-if="this.GlobalState.foodList.did_you_mean !== undefined"
           >
-            Did you mean :{{ this.GlobalState.foodList.did_you_mean[0] }}
+            Did you mean {{ this.GlobalState.foodList.did_you_mean[0] }}
           </p>
         </div>
         <div>
@@ -45,6 +45,16 @@
       </div>
     </Form>
   </DefaultLayout>
+  <div
+    v-if="this.GlobalState.foodList.length === 50"
+    class="grid grid-cols-3 gap-2 mt-2 sm:grid-cols-3"
+  >
+    <RecipeCard
+      v-for="i in this.GlobalState.foodList"
+      :key="i.id"
+      :Recipe="i"
+    />
+  </div>
 </template>
 
 <script>
@@ -52,11 +62,13 @@ import DefaultLayout from "../layouts/DefaultLayout.vue";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import FoodAPI from "../services/FoodAPI.js";
+import RecipeCard from "@/components/RecipeCard.vue";
 
 export default {
   name: "search",
   inject: ["GlobalState"],
   components: {
+    RecipeCard,
     DefaultLayout,
     Form,
     ErrorMessage,
