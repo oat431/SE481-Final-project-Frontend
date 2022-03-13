@@ -14,26 +14,10 @@
           <ErrorMessage name="query" class="text-red-500" />
           <p
             class="text-red-500"
-            v-if="this.GlobalState.foodList.did_you_mean !== undefined"
+            v-if="this.searchResult.did_you_mean !== undefined"
           >
-            Did you mean {{ this.GlobalState.foodList.did_you_mean[0] }}
+            Did you mean {{ this.searchResult.did_you_mean[0] }}
           </p>
-        </div>
-        <div>
-          <label class="text-gray-700 dark:text-gray-200" for="opt"
-            >search type</label
-          >
-          <Field
-            name="opt"
-            as="select"
-            :v-slot="{ opt }"
-            class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-          >
-            <option value="title">Title</option>
-            <option value="ingredient">Ingredient</option>
-            <option value="instruction">Instruction</option>
-          </Field>
-          <ErrorMessage name="opt" class="text-red-500" />
         </div>
         <div class="flex justify-center mt-6">
           <button
@@ -57,6 +41,12 @@
   >
     <RecipeCard v-for="i in this.markRecipeList" :key="i.id" :Recipe="i" />
   </div>
+  <div
+    v-if="this.searchResult.length !== 0"
+    class="grid grid-cols-3 gap-2 mt-2 sm:grid-cols-3"
+  >
+    <RecipeCard v-for="i in this.searchResult" :key="i.id" :Recipe="i" />
+  </div>
 </template>
 
 <script>
@@ -79,20 +69,21 @@ export default {
   data() {
     const schema = yup.object().shape({
       query: yup.string().required("query is required!"),
-      opt: yup.string().required("option is required"),
     });
     return {
       schema,
-      opt: "",
       markList: [],
       markRecipeList: [],
+      searchResult: [],
     };
   },
   methods: {
     search(query) {
-      FoodAPI.search(query)
+      this.markRecipeList = [];
+      FoodAPI.searchByMark(query)
         .then((res) => {
-          this.GlobalState.foodList = res;
+          this.searchResult = res;
+          console.log(this.searchResult);
         })
         .catch(() => {
           console.log("could not search");
@@ -100,6 +91,7 @@ export default {
     },
     getMarkRecipe() {
       this.markList = [];
+      this.searchResult = [];
       for (let i of this.GlobalState.mark) {
         this.markList.push(i.title);
       }

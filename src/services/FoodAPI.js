@@ -57,4 +57,13 @@ export default {
         return Promise.resolve(res.data);
       });
   },
+  searchByMark(query) {
+    return apiIRCore
+      .post("search-mark", {
+        query: query.query,
+      })
+      .then((res) => {
+        return Promise.resolve(res.data);
+      });
+  },
 };
