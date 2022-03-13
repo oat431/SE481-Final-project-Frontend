@@ -1,18 +1,24 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+  <Header />
+  <!-- <SearchBar /> -->
+
+  <!-- <div v-if="this.GlobalState.foodList.did_you_mean !== undefined">
+    <h3 class="text-green-700">Did you mean : {{this.GlobalState.foodList.did_you_mean[0]}}</h3>
+  </div> -->
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import Header from "@/components/Header.vue";
+// import SearchBar from "./SearchBar.vue";
+// import RecipeCard from "@/components/RecipeCard.vue";
 
 export default {
   name: "Home",
+  inject: ["GlobalState"],
   components: {
-    HelloWorld,
+    Header,
+    // SearchBar,
+    // RecipeCard,
   },
 };
 </script>
