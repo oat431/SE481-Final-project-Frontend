@@ -1,4 +1,5 @@
 import apiIRCore from "./IRCore.js";
+import apiBackend from "./axiosClient";
 // import GlobalStorage from "../store";
 export default {
   search(_query) {
@@ -23,5 +24,46 @@ export default {
     return apiIRCore.get("/recipe/" + id).then((res) => {
       return Promise.resolve(res.data);
     });
+  },
+  getUserById(id) {
+    return apiBackend.get("/user/" + id).then((res) => {
+      return Promise.resolve(res.data);
+    });
+  },
+  getMarkRecipe(li) {
+    return apiIRCore
+      .post("/see-mark-recipe", {
+        mark: li,
+      })
+      .then((res) => {
+        return Promise.resolve(res.data);
+      });
+  },
+  markingRecipe(userID, index) {
+    return apiBackend
+      .post("/mark/" + userID, {
+        title: index,
+      })
+      .then((res) => {
+        return Promise.resolve(res.data);
+      });
+  },
+  unmarkingRecipe(userID, index) {
+    return apiBackend
+      .post("/unmark/" + userID, {
+        title: index,
+      })
+      .then((res) => {
+        return Promise.resolve(res.data);
+      });
+  },
+  searchByMark(query) {
+    return apiIRCore
+      .post("search-mark", {
+        query: query.query,
+      })
+      .then((res) => {
+        return Promise.resolve(res.data);
+      });
   },
 };
