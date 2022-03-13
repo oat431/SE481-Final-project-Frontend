@@ -31,6 +31,11 @@
             >
           </div>
           <div class="flex items-right mt-4 md:mt-0 relative">
+            <router-link
+              :to="'/profile/' + GlobalState.currentUser.id"
+              class="relative z-10 block p-2 bg-white rounded-md hover:text-green-600"
+              >profile</router-link
+            >
             <button
               @click="logout"
               class="relative z-10 block p-2 bg-white rounded-md hover:text-green-600"

@@ -5,4 +5,7 @@ export default reactive({
   currentUser: JSON.parse(localStorage.getItem("user")),
   foodList: [],
   details: {},
+  mark: [],
+  markIndex: [],
+  markRecipe: [],
 });
